@@ -1,0 +1,30 @@
+import win32com.client as win32
+import os
+import glob
+
+#criar integração com o outlook
+outlook = win32.Dispatch("outlook.application")
+
+#criar um e-mail
+email = outlook.CreateItem(0)
+
+#configurar as informações do seu e-mail
+email.To =  "endereço de e-mail"
+email.Subject = "Nome do e-mail"
+email.HTMLBody = """
+
+Corpo do e-mail
+
+"""
+
+#pega o último arquivo da pasta
+lista_de_arquivos = glob.glob("cominho do arquivo com os caracteres /* no final")
+ultimo_arquivo = max(lista_de_arquivos, key = os.path.getctime) 
+
+#anexa arquivos no e-mail
+email.Attachments.Add(ultimo_arquivo)
+
+#envia o e-mail
+email.Send()
+
+print("E-mail enviado com sucesso")
